@@ -1,14 +1,14 @@
 # Container image that runs your code
-FROM node:alpine3.18
+FROM node:18-bookworm-slim
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
-RUN npm install -g @superblocksteam/cli@latest
-RUN apk update
-RUN apk upgrade
-RUN apk add git
-RUN apk add bash
-RUN apk add jq
+
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt install -y git
+RUN apt install jq -y
+RUN npm install -g @superblocksteam/cli@"^1.0.0"
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
