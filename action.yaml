@@ -1,0 +1,39 @@
+name: 'Superblocks Import'
+description: 'Find changes superblocks resources and import to superblocks cloud'
+inputs:
+  github-username:
+    description: 'GitHub username'
+    required: true
+  repository:
+    description: 'Repository'
+    required: true
+  server-url:
+    description: 'Server URL'
+    required: true
+  github-token:
+    description: 'Server URL'
+    required: true
+  github-sha:
+    description: 'GitHub SHA'
+    required: true
+  superblocks-auth-token:
+    description: 'Superblocks authentication token'
+    required: true
+  superblocks-config-path:
+    description: 'Superblocks config path'
+    default: '.superblocks/superblocks.json'
+
+outputs:
+  imported: # id of output
+    description: 'import status'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.github-username }}
+    - ${{ inputs.repository }}
+    - ${{ inputs.server-url }}
+    - ${{ inputs.github-token }}
+    - ${{ inputs.github-sha }}
+    - ${{ inputs.superblocks-auth-token }}
+    - ${{ inputs.superblocks-config-path }}
