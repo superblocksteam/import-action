@@ -3,13 +3,35 @@
 GITHUB_SHA="$1"
 SUPERBLOCKS_AUTH_TOKEN="$2"
 SUPERBLOCKS_CONFIG_PATH="$3"
+GITHUB_USERNAME="$4"
+GITHUB_TOKEN="$5"
+SUPERBLOCKS_CLI_BRANCH="$6"
+BUILD_SUPERBLOCKS_CLI="$7"
 
 # Use the input parameters in your script logic
 echo "GitHub SHA: $GITHUB_SHA"
 echo "Superblocks Auth Token: $SUPERBLOCKS_AUTH_TOKEN"
 echo "Superblocks Config Path: $SUPERBLOCKS_CONFIG_PATH"
+echo "GitHub USERNAME: $GITHUB_USERNAME"
+echo "GitHub Token: $GITHUB_TOKEN"
+echo "Superblocks CLI Branch: $SUPERBLOCKS_CLI_BRANCH"
+echo "Build Superblocks CLI: $BUILD_SUPERBLOCKS_CLI"
+
+if [ "$BUILD_SUPERBLOCKS_CLI" = 'true' ] ; then
+    echo "Building superblocks-cli"
+    git clone "https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/superblocksteam/superblocks-cli.git"
+    cd superblocks-cli
+    git checkout $SUPERBLOCKS_CLI_BRANCH
+    npm install
+    npm run build
+    ln -s ${PWD}/packages/cli/bin/run /usr/bin/superblocks
+    cd ..
+else
+    npm install -g @superblocksteam/cli@"^1.0.0"
+fi
 
 # See if superblocks-cli is installed
+which superblocks
 superblocks --help
 
 cd $GITHUB_WORKSPACE

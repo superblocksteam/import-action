@@ -10,6 +10,16 @@ inputs:
   superblocks-config-path:
     description: 'Superblocks config path'
     default: '.superblocks/superblocks.json'
+  github-username:
+    description: 'Github username to pull cli repo'
+  github-token:
+    description: 'Github token to pull cli repo'
+  superblocks-cli-branch:
+    description: 'Superblocks cli branch to build'
+    default: 'branch_awareness'
+  build-superblocks-cli:
+    description: 'Boolean flag to determine if we should build superblocks cli'
+    default: 'false'
 
 outputs:
   imported: # id of output
@@ -21,3 +31,7 @@ runs:
     - ${{ inputs.github-sha }}
     - ${{ inputs.superblocks-auth-token }}
     - ${{ inputs.superblocks-config-path }}
+    - ${{ inputs.github-username }}
+    - ${{ inputs.github-token }}
+    - ${{ inputs.superblocks-cli-branch }}
+    - ${{ inputs.build-superblocks-cli }}

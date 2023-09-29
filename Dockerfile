@@ -8,7 +8,6 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt install -y git
 RUN apt install jq -y
-RUN npm install -g @superblocksteam/cli@"^1.0.0"
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
