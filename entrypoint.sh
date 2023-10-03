@@ -7,8 +7,17 @@ PATH="$4"
 CLI_VERSION="$5"
 GITHUB_TOKEN="$6"
 
+SUPERBLOCKS_BOT_NAME="superblocks-app[bot]"
+
 cd $GITHUB_WORKSPACE
 git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+# Check if the commit in question was made by Superblocks
+actor_name=$(git show -s --format='%an' "$SHA")
+if [ "$actor_name" != "$SUPERBLOCKS_BOT_NAME" ]; then
+    echo "Commit was made by Superblocks. Skipping push..."
+    exit 0
+fi
 
 # Get the list of changed files in the last commit
 changed_files=$(git diff ${SHA}^ --name-only)
