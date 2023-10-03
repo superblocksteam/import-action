@@ -1,25 +1,26 @@
 name: 'Superblocks Import'
-description: 'Find changes superblocks resources and import to superblocks cloud'
+description: 'Push applications to Superblocks'
 inputs:
-  github-sha:
-    description: 'GitHub SHA'
+  sha:
+    description: 'Commit to push changes for'
+    default: 'HEAD'
+  token:
+    description: 'The Superblocks access token to use'
     required: true
-  superblocks-auth-token:
-    description: 'Superblocks authentication token'
-    required: true
-  superblocks-config-path:
-    description: 'Superblocks config path'
+  domain:
+    description: 'The Superblocks domain where applications are hosted'
+    default: 'app.superblocks.com'
+  path:
+    description: 'The relative path to the Superblocks config file'
     default: '.superblocks/superblocks.json'
-  github-username:
-    description: 'Github username to pull cli repo'
+  cli-version:
+    description: 'The Superblocks CLI version'
+    # TODO(taha) Change this to a better default once the CLI + action is made public
+    default: branch-awareness
+  # TODO(taha) Remove the following once the CLI + action is made public
   github-token:
-    description: 'Github token to pull cli repo'
-  superblocks-cli-branch:
-    description: 'Superblocks cli branch to build'
-    default: 'branch_awareness'
-  build-superblocks-cli:
-    description: 'Boolean flag to determine if we should build superblocks cli'
-    default: 'false'
+    description: 'The GitHub package registry access token to use when installing the Superblocks CLI'
+    required: true
 
 outputs:
   imported: # id of output
@@ -28,10 +29,9 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.github-sha }}
-    - ${{ inputs.superblocks-auth-token }}
-    - ${{ inputs.superblocks-config-path }}
-    - ${{ inputs.github-username }}
+    - ${{ inputs.sha }}
+    - ${{ inputs.token }}
+    - ${{ inputs.domain }}
+    - ${{ inputs.path }}
+    - ${{ inputs.cli-version }}
     - ${{ inputs.github-token }}
-    - ${{ inputs.superblocks-cli-branch }}
-    - ${{ inputs.build-superblocks-cli }}
