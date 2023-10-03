@@ -3,7 +3,7 @@
 SHA="$1"
 TOKEN="$2"
 DOMAIN="$3"
-PATH="$4"
+CONFIG_PATH="$4"
 CLI_VERSION="$5"
 GITHUB_TOKEN="$6"
 
@@ -52,7 +52,7 @@ folder_changed() {
 }
 
 # Read superblocks config config file json
-json_data=$(cat "$PATH")
+json_data=$(cat "$CONFIG_PATH")
 
 # Loop through folder paths and check if they have changed
 jq -r '.resources[].location' <<< "$json_data" | while IFS= read -r folder_path; do
