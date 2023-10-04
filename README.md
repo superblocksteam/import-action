@@ -4,6 +4,31 @@ Github Action to sync changes to Superblocks Applications
 
 ## Description
 
+## Usage
+
+```yaml
+name: Sync application changes to Superblocks
+on: [push]
+
+jobs:
+  superblocks-push:
+    runs-on: ubuntu-latest
+    name: Push to Superblocks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push
+        uses: superblocksteam/import-action@v1
+        id: push
+        with:
+          token: ${{ secrets.SUPERBLOCKS_TOKEN }}
+```
+
+You can also pin to a [specific release version](https://github.com/superblocksteam/import-action/releases) in the format @v1.x.x.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
