@@ -33,6 +33,8 @@ jobs:
           token: ${{ secrets.SUPERBLOCKS_TOKEN }}
 ```
 
+The above shows a standalone workflow. If you want to incorporate it as part of an existing workflow/job, simply copy the checkout and push steps into your workflow.
+
 You can also pin to a [specific release version](https://github.com/superblocksteam/import-action/releases) in the format @v1.x.x.
 
 ## Inputs
