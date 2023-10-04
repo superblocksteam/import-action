@@ -9,10 +9,6 @@ GITHUB_TOKEN="$6"
 
 SUPERBLOCKS_BOT_NAME="superblocks-app[bot]"
 
-echo "#### Printing out the usr binaries"
-ls -l /usr/bin
-
-
 cd "$GITHUB_WORKSPACE" || exit 1
 git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
@@ -40,12 +36,15 @@ if [ -n "$changed_files" ]; then
     # Login to Superblocks
     superblocks config set domain "$DOMAIN"
     superblocks login -t "$TOKEN"
+else
+    echo "No files changed since the last commit. Skipping push..."
+    exit 0
 fi
 
 # Function to check if a folder path is in the list of changed files
 folder_changed() {
     local folder_path="$1"
-    if echo "$changed_files" | grep -q "^$folder_path"; then
+    if echo "$changed_files" | grep -q "^$folder_path/"; then
         echo "Folder '$folder_path' has changed in the last commit. Pushing..."
         superblocks push "$folder_path"
     fi
