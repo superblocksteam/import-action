@@ -4,6 +4,12 @@ Github Action to sync changes to Superblocks Applications
 
 ## Description
 
+<!-- AUTO-DOC-DESCRIPTION:START - Do not remove or modify this section -->
+
+Push applications to Superblocks
+
+<!-- AUTO-DOC-DESCRIPTION:END -->
+
 ## Usage
 
 ```yaml
