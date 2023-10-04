@@ -31,10 +31,12 @@ if [ -n "$changed_files" ]; then
     echo "@superblocksteam:registry=https://npm.pkg.github.com/" >> ~/.npmrc
 
     # Install Superblocks CLI
-    printf "\nInstalling Superblocks CLI ($CLI_VERSION)...\n"
+    printf "\nInstalling Superblocks CLI (%s)...\n" "$CLI_VERSION"
     npm install -g @superblocksteam/cli@"$CLI_VERSION"
+    superblocks --version
 
     # Login to Superblocks
+    printf "\nLogging in to Superblocks...\n"
     superblocks config set domain "$DOMAIN"
     superblocks login -t "$TOKEN"
 else
@@ -42,20 +44,17 @@ else
     exit 0
 fi
 
-# Function to check if a folder path is in the list of changed files
-folder_changed() {
-    local folder_path="$1"
-    if echo "$changed_files" | grep -q "^$folder_path/"; then
+# Function to push a resource to Superblocks if it has changed
+push_resource() {
+    local location="$1"
+    if echo "$changed_files" | grep -q "^$location/"; then
         printf "\nChange detected. Pushing...\n"
-        superblocks push "$folder_path"
+        superblocks push "$location"
     fi
 }
 
-# Read superblocks config config file json
-json_data=$(cat "$CONFIG_PATH")
-
-# Loop through folder paths and check if they have changed
-jq -r '.resources[].location' <<< "$json_data" | while IFS= read -r folder_path; do
-    printf "\nChecking $folder_path for changes...\n"
-    folder_changed "$folder_path"
+# Check if any push-compatible resources have changed
+jq -r '.resources[] | select(.resourceType == "APPLICATION") | .location' "$CONFIG_PATH" | while read -r location; do
+    printf "\nChecking %s for changes...\n" "$location"
+    push_resource "$location"
 done
