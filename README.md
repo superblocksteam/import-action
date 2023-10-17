@@ -1,6 +1,8 @@
 # import-action
 
-Github Action to sync changes to Superblocks Applications
+This repo contains the GitHub Action that can be used to push Superblocks application changes from a connected GitHub repo to Superblocks.
+
+See the [Source Control documentation](https://docs.superblocks.com/development-lifecycle/source-control/) for more information.
 
 ## Description
 
