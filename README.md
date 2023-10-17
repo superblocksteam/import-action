@@ -1,6 +1,8 @@
 # import-action
 
-Github Action to sync changes to Superblocks Applications
+This repo contains the GitHub Action that can be used to push Superblocks application changes from a connected GitHub repo to Superblocks.
+
+See the [Source Control documentation](https://docs.superblocks.com/development-lifecycle/source-control/) for more information.
 
 ## Description
 
@@ -37,18 +39,32 @@ The above shows a standalone workflow. If you want to incorporate it as part of 
 
 You can also pin to a [specific release version](https://github.com/superblocksteam/import-action/releases) in the format @v1.x.x.
 
+### EU region
+
+If your organization uses Superblocks EU, set the `domain` to `eu.superblocks.com` in the `Push` step.
+
+```yaml
+      ...
+
+      - name: Push
+        uses: superblocksteam/import-action@v1
+        id: push
+        with:
+          token: ${{ secrets.SUPERBLOCKS_TOKEN }}
+          domain: eu.superblocks.com
+```
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|                                INPUT                                 |  TYPE  | REQUIRED |              DEFAULT              |                                         DESCRIPTION                                          |
-|----------------------------------------------------------------------|--------|----------|-----------------------------------|----------------------------------------------------------------------------------------------|
-|  <a name="input_cli_version"></a>[cli_version](#input_cli_version)   | string |  false   |       `"branch-awareness"`        |                                 The Superblocks CLI version                                  |
-|          <a name="input_domain"></a>[domain](#input_domain)          | string |  false   |      `"app.superblocks.com"`      |                  The Superblocks domain where applications <br>are hosted                    |
-| <a name="input_github_token"></a>[github_token](#input_github_token) | string |   true   |                                   | The GitHub package registry access <br>token to use when installing <br>the Superblocks CLI  |
-|             <a name="input_path"></a>[path](#input_path)             | string |  false   | `".superblocks/superblocks.json"` |                    The relative path to the <br>Superblocks config file                      |
-|              <a name="input_sha"></a>[sha](#input_sha)               | string |  false   |             `"HEAD"`              |                                  Commit to push changes for                                  |
-|           <a name="input_token"></a>[token](#input_token)            | string |   true   |                                   |                           The Superblocks access token to <br>use                            |
+|    INPUT    |  TYPE  | REQUIRED |              DEFAULT              |                        DESCRIPTION                        |
+|-------------|--------|----------|-----------------------------------|-----------------------------------------------------------|
+| cli_version | string |  false   |            `"^1.1.0"`             |                The Superblocks CLI version                |
+|   domain    | string |  false   |      `"app.superblocks.com"`      | The Superblocks domain where applications are <br>hosted  |
+|    path     | string |  false   | `".superblocks/superblocks.json"` |   The relative path to the Superblocks <br>config file    |
+|     sha     | string |  false   |             `"HEAD"`              |                Commit to push changes for                 |
+|    token    | string |   true   |                                   |            The Superblocks access token to use            |
 
 <!-- AUTO-DOC-INPUT:END -->
 

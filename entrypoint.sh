@@ -8,7 +8,6 @@ TOKEN="$2"
 DOMAIN="$3"
 CONFIG_PATH="$4"
 CLI_VERSION="$5"
-GITHUB_TOKEN="$6"
 
 SUPERBLOCKS_BOT_NAME="superblocks-app[bot]"
 
@@ -26,10 +25,6 @@ fi
 changed_files=$(git diff "${SHA}"^ --name-only)
 
 if [ -n "$changed_files" ]; then
-    # TODO(taha) Remove the following once the push-compatible version of the CLI is released
-    npm set //npm.pkg.github.com/:_authToken "$GITHUB_TOKEN"
-    echo "@superblocksteam:registry=https://npm.pkg.github.com/" >> ~/.npmrc
-
     # Install Superblocks CLI
     printf "\nInstalling Superblocks CLI (%s)...\n" "$CLI_VERSION"
     npm install -g @superblocksteam/cli@"$CLI_VERSION"
