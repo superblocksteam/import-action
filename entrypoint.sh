@@ -42,9 +42,12 @@ fi
 # Function to push a resource to Superblocks if it has changed
 push_resource() {
     local location="$1"
-    if echo "$changed_files" | grep -q "^$location/"; then
+    # Skip push if only components have changed
+    if echo "$changed_files" | grep -P "^${location}/(?!components/)"; then
         printf "\nChange detected. Pushing...\n"
         superblocks push "$location"
+    else
+        printf "\nNo change detected. Skipping push...\n"
     fi
 }
 
