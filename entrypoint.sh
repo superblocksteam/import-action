@@ -43,7 +43,7 @@ fi
 push_resource() {
     local location="$1"
     # Skip push if only components have changed
-    if echo "$changed_files" | grep -P "^${location}/(?!components/)"; then
+    if echo "$changed_files" | grep -qP "^${location}/(?!components/)"; then
         printf "\nChange detected. Pushing...\n"
         superblocks push "$location"
     else
