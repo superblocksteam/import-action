@@ -57,3 +57,5 @@ jq -r '.resources[] | select(.resourceType == "APPLICATION") | .location' "$CONF
     printf "\nChecking %s for changes...\n" "$location"
     push_resource "$location"
 done
+
+printf "\nChecking complete. Exiting...\n"
