@@ -8,11 +8,16 @@ TOKEN="$2"
 DOMAIN="$3"
 CONFIG_PATH="$4"
 CLI_VERSION="$5"
+REPO_DIR=${REPO_DIR:-$GITHUB_WORKSPACE}
 
 SUPERBLOCKS_BOT_NAME="superblocks-app[bot]"
 
-cd "$GITHUB_WORKSPACE"
-git config --global --add safe.directory "$GITHUB_WORKSPACE"
+echo "WORKSPACE: $GITHUB_WORKSPACE"
+echo "CURRENT DIR: $(pwd)"
+echo "REPO_DIR: $REPO_DIR"
+
+cd "$REPO_DIR"
+git config --global --add safe.directory "$REPO_DIR"
 
 # Get the name of the actor who made the last commit
 actor_name=$(git show -s --format='%an' "$SHA")
