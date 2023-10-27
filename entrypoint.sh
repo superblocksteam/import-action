@@ -7,16 +7,25 @@ SHA="$1"
 TOKEN="$2"
 DOMAIN="$3"
 CONFIG_PATH="$4"
-CLI_VERSION="$5"
 
-SUPERBLOCKS_BOT_NAME="superblocks-app[bot]"
+SUPERBLOCKS_AUTHOR_NAME="${SUPERBLOCKS_AUTHOR_NAME:-superblocks-app[bot]}"
+SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER="${SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER:-[superblocks ci]}"
 
-cd "$GITHUB_WORKSPACE"
-git config --global --add safe.directory "$GITHUB_WORKSPACE"
+if [ -z "$REPO_DIR" ]; then
+  REPO_DIR="$(pwd)"
+else
+  cd "$REPO_DIR"
+fi
 
-# Get the name of the actor who made the last commit
+git config --global --add safe.directory "$REPO_DIR"
+
+# Get the actor name and commit message the last commit
 actor_name=$(git show -s --format='%an' "$SHA")
-if [ "$actor_name" == "$SUPERBLOCKS_BOT_NAME" ]; then
+commit_message=$(git show -s --format='%B' "$SHA")
+
+# Skip push if the commit was made by Superblocks. To support multiple Git providers, we also
+# check for specific identifier text in the commit message.
+if [ "$actor_name" == "$SUPERBLOCKS_AUTHOR_NAME" ] || echo "$commit_message" | grep -qF "$SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER" ; then
     printf "\nCommit was made by Superblocks. Skipping push...\n"
     exit 0
 fi
@@ -25,9 +34,6 @@ fi
 changed_files=$(git diff "${SHA}"^ --name-only)
 
 if [ -n "$changed_files" ]; then
-    # Install Superblocks CLI
-    printf "\nInstalling Superblocks CLI (%s)...\n" "$CLI_VERSION"
-    npm install -g @superblocksteam/cli@"$CLI_VERSION"
     superblocks --version
 
     # Login to Superblocks
