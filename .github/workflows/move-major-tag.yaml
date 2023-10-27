@@ -1,0 +1,24 @@
+name: Update major release tag
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  move-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get major version num and update tag
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/}"
+          MAJOR="${VERSION%%.*}"
+
+          # https://github.com/actions/checkout/pull/1184
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git tag -fa "${MAJOR}" -m "Floating tag for major version ${MAJOR}"
+          git push origin "${MAJOR}" --force
