@@ -3,13 +3,17 @@
 set -e
 set -o pipefail
 
-SHA="$1"
-TOKEN="$2"
-DOMAIN="$3"
-CONFIG_PATH="$4"
-
+COMMIT_SHA="${COMMIT_SHA:-HEAD}"
+SUPERBLOCKS_DOMAIN="${SUPERBLOCKS_DOMAIN:-app.superblocks.com}"
+SUPERBLOCKS_CONFIG_PATH="${SUPERBLOCKS_CONFIG_PATH:-.superblocks/superblocks.json}"
 SUPERBLOCKS_AUTHOR_NAME="${SUPERBLOCKS_AUTHOR_NAME:-superblocks-app[bot]}"
 SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER="${SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER:-[superblocks ci]}"
+
+# Ensure that a Superblocks token is provided
+if [ -z "$SUPERBLOCKS_TOKEN" ]; then
+  echo "The 'SUPERBLOCKS_TOKEN' environment variable is unset or empty. Exiting..."
+  exit 1
+fi
 
 if [ -z "$REPO_DIR" ]; then
   REPO_DIR="$(pwd)"
@@ -20,8 +24,8 @@ fi
 git config --global --add safe.directory "$REPO_DIR"
 
 # Get the actor name and commit message the last commit
-actor_name=$(git show -s --format='%an' "$SHA")
-commit_message=$(git show -s --format='%B' "$SHA")
+actor_name=$(git show -s --format='%an' "$COMMIT_SHA")
+commit_message=$(git show -s --format='%B' "$COMMIT_SHA")
 
 # Skip push if the commit was made by Superblocks. To support multiple Git providers, we also
 # check for specific identifier text in the commit message.
@@ -38,8 +42,8 @@ if [ -n "$changed_files" ]; then
 
     # Login to Superblocks
     printf "\nLogging in to Superblocks...\n"
-    superblocks config set domain "$DOMAIN"
-    superblocks login -t "$TOKEN"
+    superblocks config set domain "$SUPERBLOCKS_DOMAIN"
+    superblocks login -t "$SUPERBLOCKS_TOKEN"
 else
     echo "No files changed since the last commit. Skipping push..."
     exit 0
@@ -59,7 +63,7 @@ push_resource() {
 }
 
 # Check if any push-compatible resources have changed
-jq -r '.resources[] | select(.resourceType == "APPLICATION") | .location' "$CONFIG_PATH" | while read -r location; do
+jq -r '.resources[] | select(.resourceType == "APPLICATION") | .location' "$SUPERBLOCKS_CONFIG_PATH" | while read -r location; do
     printf "\nChecking %s for changes...\n" "$location"
     push_resource "$location"
 done
