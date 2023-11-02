@@ -18,8 +18,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    SUPERBLOCKS_AUTHOR_NAME: 'superblocks-app[bot]'
-    SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER: '[superblocks ci]'
     SUPERBLOCKS_TOKEN: ${{ inputs.token }}
     SUPERBLOCKS_DOMAIN: ${{ inputs.domain }}
     SUPERBLOCKS_CONFIG_PATH: ${{ inputs.path }}
