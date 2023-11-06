@@ -6,8 +6,6 @@ set -o pipefail
 COMMIT_SHA="${COMMIT_SHA:-HEAD}"
 SUPERBLOCKS_DOMAIN="${SUPERBLOCKS_DOMAIN:-app.superblocks.com}"
 SUPERBLOCKS_CONFIG_PATH="${SUPERBLOCKS_CONFIG_PATH:-.superblocks/superblocks.json}"
-SUPERBLOCKS_AUTHOR_NAME="${SUPERBLOCKS_AUTHOR_NAME:-superblocks-app[bot]}"
-SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER="${SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER:-[superblocks ci]}"
 
 # Ensure that a Superblocks token is provided
 if [ -z "$SUPERBLOCKS_TOKEN" ]; then
@@ -22,17 +20,6 @@ else
 fi
 
 git config --global --add safe.directory "$REPO_DIR"
-
-# Get the actor name and commit message the last commit
-actor_name=$(git show -s --format='%an' "$COMMIT_SHA")
-commit_message=$(git show -s --format='%B' "$COMMIT_SHA")
-
-# Skip push if the commit was made by Superblocks. To support multiple Git providers, we also
-# check for specific identifier text in the commit message.
-if [ "$actor_name" == "$SUPERBLOCKS_AUTHOR_NAME" ] || echo "$commit_message" | grep -qF "$SUPERBLOCKS_COMMIT_MESSAGE_IDENTIFIER" ; then
-    printf "\nCommit was made by Superblocks. Skipping push...\n"
-    exit 0
-fi
 
 # Get the list of changed files in the last commit
 changed_files=$(git diff "${COMMIT_SHA}"^ --name-only)
