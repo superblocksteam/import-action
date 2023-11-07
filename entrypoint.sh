@@ -50,7 +50,7 @@ push_resource() {
 }
 
 # Check if any push-compatible resources have changed
-jq -r '.resources[] | select(.resourceType == "APPLICATION") | .location' "$SUPERBLOCKS_CONFIG_PATH" | while read -r location; do
+jq -r '.resources[] | .location' "$SUPERBLOCKS_CONFIG_PATH" | while read -r location; do
     printf "\nChecking %s for changes...\n" "$location"
     push_resource "$location"
 done
