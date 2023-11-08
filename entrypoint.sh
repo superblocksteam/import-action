@@ -41,7 +41,7 @@ push_resource() {
     local location="$1"
     # Push only if there are some changes to $location/application.yaml, $location/page.yaml, or $location/apis/*.
     # This is to avoid pushing when only the components have changed.
-    if echo "$changed_files" | grep -qP "^${location}/(application|page).yaml" || echo "$changed_files" | grep -qP "^${location}/apis/" ; then
+    if echo "$changed_files" | grep -qP "^${location}/(application|page|api).yaml" || echo "$changed_files" | grep -qP "^${location}/apis/" ; then
         printf "\nChange detected. Pushing...\n"
         superblocks push "$location"
     else
