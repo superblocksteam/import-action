@@ -1,6 +1,6 @@
 FROM node:18-bookworm-slim
 
-ARG SUPERBLOCKS_CLI_VERSION='1.4.0-rc.1'
+ARG SUPERBLOCKS_CLI_VERSION='1.4.0-rc.4'
 ARG NPM_TOKEN
 
 # Install Superblocks CLI dependencies
