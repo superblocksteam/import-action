@@ -16,7 +16,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'superblocksteam/import-action:v1'
+  image: 'docker://superblocksteam/import-action:v1'
   env:
     SUPERBLOCKS_TOKEN: ${{ inputs.token }}
     SUPERBLOCKS_DOMAIN: ${{ inputs.domain }}
