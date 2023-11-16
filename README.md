@@ -8,14 +8,14 @@ See the [Source Control documentation](https://docs.superblocks.com/development-
 
 <!-- AUTO-DOC-DESCRIPTION:START - Do not remove or modify this section -->
 
-Push applications to Superblocks
+Push Applications, Workflows, and Scheduled Jobs to Superblocks
 
 <!-- AUTO-DOC-DESCRIPTION:END -->
 
 ## Usage
 
 ```yaml
-name: Sync application changes to Superblocks
+name: Sync Applications, Workflows, and Scheduled Jobs changes to Superblocks
 on: [push]
 
 jobs:
@@ -58,12 +58,12 @@ If your organization uses Superblocks EU, set the `domain` to `eu.superblocks.co
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT  |  TYPE  | REQUIRED |              DEFAULT              |                     DESCRIPTION                      |
-|--------|--------|----------|-----------------------------------|------------------------------------------------------|
-| domain | string |  false   |      `"app.superblocks.com"`      | The Superblocks domain where applications are hosted |
-|  path  | string |  false   | `".superblocks/superblocks.json"` |   The relative path to the Superblocks config file   |
-|  sha   | string |  false   |             `"HEAD"`              |              Commit to push changes for              |
-| token  | string |   true   |                                   |         The Superblocks access token to use          |
+| INPUT  |  TYPE  | REQUIRED |              DEFAULT              |                    DESCRIPTION                    |
+|--------|--------|----------|-----------------------------------|---------------------------------------------------|
+| domain | string |  false   |      `"app.superblocks.com"`      | The Superblocks domain where resources are hosted |
+|  path  | string |  false   | `".superblocks/superblocks.json"` | The relative path to the Superblocks config file  |
+|  sha   | string |  false   |             `"HEAD"`              |            Commit to push changes for             |
+| token  | string |   true   |                                   |        The Superblocks access token to use        |
 
 <!-- AUTO-DOC-INPUT:END -->
 

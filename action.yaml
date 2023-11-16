@@ -1,11 +1,11 @@
 name: 'Superblocks Import'
-description: 'Push applications to Superblocks'
+description: 'Push Applications, Workflows, and Scheduled Jobs to Superblocks'
 inputs:
   token:
     description: 'The Superblocks access token to use'
     required: true
   domain:
-    description: 'The Superblocks domain where applications are hosted'
+    description: 'The Superblocks domain where resources are hosted'
     default: 'app.superblocks.com'
   path:
     description: 'The relative path to the Superblocks config file'
@@ -16,7 +16,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'superblocksteam/import-action:v1'
   env:
     SUPERBLOCKS_TOKEN: ${{ inputs.token }}
     SUPERBLOCKS_DOMAIN: ${{ inputs.domain }}
