@@ -39,9 +39,17 @@ fi
 # Function to push a resource to Superblocks if it has changed
 push_resource() {
     local location="$1"
-    # Push only if there are some changes to $location/application.yaml, $location/page.yaml, $location/api.yaml, or $location/apis/*.
-    # This is to avoid pushing when only the components have changed.
-    if echo "$changed_files" | grep -qP "^${location}/(application|page|api).yaml" || echo "$changed_files" | grep -qP "^${location}/apis/" ; then
+
+    # Escape any special characters in the resource subdir
+    escaped_location="${location%%/*}/$(printf '%s\n' "${location#*/}" | sed 's/[][\\^$.|?*+(){}/]/\\&/g')"
+
+    # Push only if there are changes to one or more of the following files/folders under the resource location:
+    #   application.yaml
+    #   page.yaml
+    #   apis/*
+    #   api.yaml
+    # This specificity ensures that we avoid pushing when only the components subdir has changes.
+    if echo "$changed_files" | grep -qP "^${escaped_location}/((application|page|api).yaml|apis/)" ; then
         printf "\nChange detected. Pushing...\n"
         superblocks push "$location"
     else
