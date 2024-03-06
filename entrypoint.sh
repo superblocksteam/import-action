@@ -7,7 +7,9 @@ SUPERBLOCKS_CLI_VERSION="${SUPERBLOCKS_CLI_VERSION:-^1.4.0}"
 
 COMMIT_SHA="${COMMIT_SHA:-HEAD}"
 SUPERBLOCKS_DOMAIN="${SUPERBLOCKS_DOMAIN:-app.superblocks.com}"
-SUPERBLOCKS_CONFIG_PATH="${SUPERBLOCKS_CONFIG_PATH:-.superblocks/superblocks.json}"
+SUPERBLOCKS_PATH="${SUPERBLOCKS_PATH:.}"
+
+SUPERBLOCKS_CONFIG_RELATIVE_PATH=".superblocks/superblocks.json"
 
 # Ensure that a Superblocks token is provided
 if [ -z "$SUPERBLOCKS_TOKEN" ]; then
@@ -24,7 +26,10 @@ fi
 git config --global --add safe.directory "$REPO_DIR"
 
 # Get the list of changed files in the last commit
-changed_files=$(git diff "${COMMIT_SHA}"^ --name-only)
+changed_files=$(git diff "${COMMIT_SHA}"^ --name-only -- "$SUPERBLOCKS_PATH")
+
+# Change the working directory to the Superblocks path
+pushd "$SUPERBLOCKS_PATH"
 
 if [ -n "$changed_files" ]; then
     # Install Superblocks CLI
@@ -63,7 +68,7 @@ push_resource() {
 }
 
 # Check if any push-compatible resources have changed
-jq -r '.resources[] | .location' "$SUPERBLOCKS_CONFIG_PATH" | while read -r location; do
+jq -r '.resources[] | .location' "$SUPERBLOCKS_CONFIG_RELATIVE_PATH" | while read -r location; do
     printf "\nChecking %s for changes...\n" "$location"
     push_resource "$location"
 done
