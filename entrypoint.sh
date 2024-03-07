@@ -29,7 +29,7 @@ git config --global --add safe.directory "$REPO_DIR"
 changed_files=$(git diff "${COMMIT_SHA}"^ --name-only -- "$SUPERBLOCKS_PATH")
 
 # Change the working directory to the Superblocks path
-pushd "$SUPERBLOCKS_PATH"
+pushd "$REPO_DIR/$SUPERBLOCKS_PATH"
 
 if [ -n "$changed_files" ]; then
     # Install Superblocks CLI
