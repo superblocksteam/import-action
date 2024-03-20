@@ -13,8 +13,8 @@ inputs:
   sha:
     description: 'Commit to push changes for'
     default: 'HEAD'
-  profile:
-    description: 'The Superblocks profile to use'
+  signing_agent_profile:
+    description: 'The Superblocks profile to use for selecting the signing agent'
     default: ''
 
 runs:
@@ -25,4 +25,4 @@ runs:
     SUPERBLOCKS_DOMAIN: ${{ inputs.domain }}
     SUPERBLOCKS_PATH: ${{ inputs.path }}
     COMMIT_SHA: ${{ inputs.sha }}
-    SUPERBLOCKS_PROFILE: ${{ inputs.profile }}
+    SUPERBLOCKS_PROFILE: ${{ inputs.signing_agent_profile }}
