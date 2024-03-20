@@ -13,6 +13,9 @@ inputs:
   sha:
     description: 'Commit to push changes for'
     default: 'HEAD'
+  profile:
+    description: 'The Superblocks profile to use'
+    default: ''
 
 runs:
   using: 'docker'
@@ -22,3 +25,4 @@ runs:
     SUPERBLOCKS_DOMAIN: ${{ inputs.domain }}
     SUPERBLOCKS_PATH: ${{ inputs.path }}
     COMMIT_SHA: ${{ inputs.sha }}
+    SUPERBLOCKS_PROFILE: ${{ inputs.profile }}
