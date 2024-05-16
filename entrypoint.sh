@@ -56,10 +56,11 @@ push_resource() {
     # Push only if there are changes to one or more of the following files/folders under the resource location:
     #   application.yaml
     #   page.yaml
+    #   pages/*
     #   apis/*
     #   api.yaml
     # This specificity ensures that we avoid pushing when only the components subdir has changes.
-    if echo "$changed_files" | grep -qP "${escaped_location}/((application|page|api).yaml|apis/)" ; then
+    if echo "$changed_files" | grep -qP "${escaped_location}/((application|page|api).yaml|apis/|pages/)" ; then
         printf "\nChange detected. Pushing...\n"
         superblocks push "$location"
     else
