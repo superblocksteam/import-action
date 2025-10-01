@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-SUPERBLOCKS_CLI_VERSION="${SUPERBLOCKS_CLI_VERSION:-^1.4.0}"
+#SUPERBLOCKS_CLI_VERSION="${SUPERBLOCKS_CLI_VERSION:-^1.4.0}"
 
 COMMIT_SHA="${COMMIT_SHA:-HEAD}"
 SUPERBLOCKS_DOMAIN="${SUPERBLOCKS_DOMAIN:-app.superblocks.com}"
@@ -33,7 +33,7 @@ pushd "$REPO_DIR/$SUPERBLOCKS_PATH"
 
 if [ -n "$changed_files" ]; then
     # Install Superblocks CLI
-    npm install -g @superblocksteam/cli@"${SUPERBLOCKS_CLI_VERSION}"
+    npm install -g @superblocksteam/cli@npm:@superblocksteam/cli-ephemeral@2.0.0-SNAPSHOT.1759248360
 
     superblocks --version
 
