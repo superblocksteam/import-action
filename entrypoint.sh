@@ -33,6 +33,7 @@ pushd "$REPO_DIR/$SUPERBLOCKS_PATH"
 
 if [ -n "$changed_files" ]; then
     # Install Superblocks CLI
+    npm install -g patch-package
     npm install -g @superblocksteam/cli@"${SUPERBLOCKS_CLI_VERSION}"
 
     superblocks --version
